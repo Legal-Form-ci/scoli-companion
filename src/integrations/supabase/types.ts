@@ -3084,6 +3084,10 @@ export type Database = {
       cleanup_expired_data: { Args: never; Returns: undefined }
       cleanup_old_login_sessions: { Args: never; Returns: undefined }
       cleanup_old_view_tracking: { Args: never; Returns: undefined }
+      compute_coupon_discount: {
+        Args: { _code: string; _subtotal: number }
+        Returns: number
+      }
       confirm_newsletter_subscription: {
         Args: { _token: string }
         Returns: {
