@@ -411,11 +411,14 @@ const Checkout = () => {
       const kitLines = kits.map(kit => ({
         order_id: order.id,
         product_id: null as string | null,
+        kit_id: kit.kit_id,
         product_name: `Kit: ${kit.name}${kit.school_name ? ` — ${kit.school_name}` : ''} (${kit.grade_level || ''})`,
         quantity: kit.quantity,
+        // Price is authoritative server-side (enforced by trigger from smart_kits)
         unit_price: kit.price,
         total_price: kit.price * kit.quantity,
       }));
+
 
       const orderItems = [...productLines, ...kitLines];
 
