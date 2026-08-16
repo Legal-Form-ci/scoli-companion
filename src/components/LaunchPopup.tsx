@@ -95,9 +95,48 @@ const CountUnit = ({ value, label, digits = 2 }: { value: number; label: string;
   </div>
 );
 
+
+const Countdown = ({ onDone }: { onDone?: (done: boolean) => void }) => {
+  const [remaining, setRemaining] = useState<Remaining>(() => computeRemaining(LAUNCH_DATE));
+
+  useEffect(() => {
+    const id = setInterval(() => setRemaining(computeRemaining(LAUNCH_DATE)), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    onDone?.(remaining.done);
+  }, [remaining.done, onDone]);
+
+  if (remaining.done) {
+    return (
+      <h2 className="mt-3 text-xl sm:text-2xl font-display font-bold text-foreground">
+        Scoly est officiellement lancé ! 🎉
+      </h2>
+    );
+  }
+
+  return (
+    <>
+      <h2 className="mt-3 text-lg sm:text-2xl font-display font-bold tracking-tight text-foreground">
+        01 SEPTEMBRE 2026
+      </h2>
+      <p className="mt-0.5 text-xs sm:text-sm font-semibold tracking-[0.2em] text-muted-foreground tabular-nums">
+        00H00MIN00S
+      </p>
+      <div className="mt-4 flex items-end justify-center gap-1.5 sm:gap-3">
+        <CountUnit value={remaining.days} label="Jours" digits={2} />
+        <CountUnit value={remaining.hours} label="Heures" />
+        <CountUnit value={remaining.minutes} label="Min" />
+        <CountUnit value={remaining.seconds} label="Sec" />
+      </div>
+    </>
+  );
+};
+
 export const LaunchPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [remaining, setRemaining] = useState<Remaining>(() => computeRemaining(LAUNCH_DATE));
+  const [launched, setLaunched] = useState(() => computeRemaining(LAUNCH_DATE).done);
   const location = useLocation();
 
   useEffect(() => {
@@ -106,13 +145,6 @@ export const LaunchPopup = () => {
     const timer = setTimeout(() => setIsVisible(true), 1500);
     return () => clearTimeout(timer);
   }, [location.pathname]);
-
-  useEffect(() => {
-    if (!isVisible) return;
-    setRemaining(computeRemaining(LAUNCH_DATE));
-    const id = setInterval(() => setRemaining(computeRemaining(LAUNCH_DATE)), 1000);
-    return () => clearInterval(id);
-  }, [isVisible]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -183,46 +215,13 @@ export const LaunchPopup = () => {
                   <motion.div {...reveal(1)} className="mt-4 sm:mt-5">
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-primary">
                       <Sparkles size={12} />
-                      {remaining.done ? "C'est parti" : "Lancement officiel"}
+                      {launched ? "C'est parti" : "Lancement officiel"}
                     </span>
                   </motion.div>
 
-                  {remaining.done ? (
-                    <motion.h2
-                      {...reveal(2)}
-                      className="mt-3 text-xl sm:text-2xl font-display font-bold text-foreground"
-                    >
-                      Scoly est officiellement lancé ! 🎉
-                    </motion.h2>
-                  ) : (
-                    <>
-                      <motion.h2
-                        {...reveal(3)}
-                        className="mt-3 text-lg sm:text-2xl font-display font-bold tracking-tight text-foreground"
-                      >
-                        01 SEPTEMBRE 2026
-                      </motion.h2>
-                      <motion.p
-                        {...reveal(4)}
-                        className="mt-0.5 text-xs sm:text-sm font-semibold tracking-[0.2em] text-muted-foreground tabular-nums"
-                      >
-                        00H00MIN00S
-                      </motion.p>
-                    </>
-                  )}
-
-                  {/* Compte à rebours */}
-                  {!remaining.done && (
-                    <motion.div
-                      {...reveal(5)}
-                      className="mt-4 flex items-end justify-center gap-1.5 sm:gap-3"
-                    >
-                      <CountUnit value={remaining.days} label="Jours" digits={2} />
-                      <CountUnit value={remaining.hours} label="Heures" />
-                      <CountUnit value={remaining.minutes} label="Min" />
-                      <CountUnit value={remaining.seconds} label="Sec" />
-                    </motion.div>
-                  )}
+                  <motion.div {...reveal(2)}>
+                    <Countdown onDone={setLaunched} />
+                  </motion.div>
 
                   {/* Offre -15% */}
                   <motion.div {...reveal(6)} className="mt-5 sm:mt-6">
