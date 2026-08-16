@@ -18,10 +18,42 @@
 - [Scoly Université](/shop?category=scoly-universite)
 
 ## Produits récents
-
+- [Une eau dormante](/shop/product/3d4e8a4d-1418-4a58-b3a2-53e35569de54)
+- [Cahier de travaux pratiques L'Horizon 240 pages](/shop/product/44f246c4-58ac-47b5-b37a-c58213b92c3e)
+- [Le Mariage de Figaro - Texte intégral](/shop/product/3f64ab63-6099-4f3f-9847-1989b5aae1ce)
+- [Élodie](/shop/product/57fca948-540b-44ed-8e10-a14a95f123a2)
+- [Ahoutou attend ses parents - Collection Ahoutou](/shop/product/0e6809db-2306-4c3e-b48d-af1d06eab6b9)
+- [Bibi n'aime pas les légumes](/shop/product/095f309f-59ed-48bd-9734-8d2a204a3072)
+- [Comment Réussir ma Maternelle ? - Grande Section Livret 2](/shop/product/25f13b23-115e-4184-8f94-fe4c545da818)
+- [Mon livre de Mathématiques, Collection Pyramide, Tome 1, Analyse et Probabilité, 1ère C](/shop/product/52cb9e8f-42f6-45c1-9e67-1a26da379ac7)
+- [Afrique en poche JUNIOR - L'affaire du Silure par Guy Menga](/shop/product/a4633e50-6510-43b2-85b0-224e81b04887)
+- [Mon livre de FRANÇAIS 5e - Collection 'SUPERNOVA'](/shop/product/bb6102a5-0676-4d52-8269-004cbb2dccd6)
+- [Harrap's Dictionnaire Mini Plus Espagnol](/shop/product/574c3ea6-d9f3-4b1b-bd45-879b2ef1a0a6)
+- [Livre de Maths 2nde C Collection "Le Repère" Nouveaux Programmes APC](/shop/product/2bfd4ae1-b54f-4370-8925-7745408732e2)
+- [Un goûter sous la véranda](/shop/product/c9f6e2da-c9ad-4e44-ab2d-d5b2a55d1323)
+- [Livre de Mathématiques CP1 - Collection Cristal](/shop/product/73c7f975-f171-44e1-b2e8-73c8f3f1c8f2)
+- [Lecture Écriture & CP1](/shop/product/0a4e90b6-1461-48ff-af74-231f83dc88d8)
+- [Comment Réussir ma Maternelle ? - Moyenne Section Livret 2](/shop/product/8947d9fa-fc9c-4f02-bed0-ec252a01249f)
+- [Toute la Maternelle - Grande Section (Lecture/Graphisme/EDHC/Poésies)](/shop/product/6cc0ec39-6446-48bf-9b48-78077a91cf6f)
+- [Contes et légendes de chez nous CP2](/shop/product/e8626563-5170-4ada-841b-5f0798e2a5c6)
+- [Buzz : La source interdite](/shop/product/cae6c62a-21d1-424d-beee-8ca2decc6ff1)
+- [Bibi n'aime pas le masque](/shop/product/2ac84c53-a137-4fa4-a5b6-f5b6faac6644)
+- [La fillette aux camélias](/shop/product/7bab48db-4e29-443d-aa06-f95ffe8546ed)
+- [Souffle](/shop/product/bfbf25c2-6085-4cbf-a08d-8e63f53c8def)
+- [Mathématiques CP2 - Éditions Eburnie](/shop/product/ff810fd6-c60c-4271-bd7f-5fc8c8648805)
+- [Méthode d'apprentissage du Français CP2 - Exercices de lecture syllabique](/shop/product/4c938b8a-64ee-42d6-93b6-4c664ef4a03d)
+- [Livre de Mathématiques 1ère Littéraire](/shop/product/58b15a33-a9d9-43d7-a476-64e37e08e1ad)
 
 ## Articles récents
-
+- [Le Guide Complet du Papier Glacé 180g : Qualité et Usages Professionnels](/actualites/45ee8854-c371-418e-bcfd-aab4e3778fde)
+- [Résultats Scolaires 2024-2025 : Une Progression du Taux de Réussite en Côte d'Ivoire](/actualites/73b7a84f-a115-4a99-b98c-d230edd3cbcb)
+- [L'Essentiel de la Bureautique : Booster la Productivité au Travail](/actualites/7fd0f2c0-9d7e-4466-a8cd-eec6ad968848)
+- [Scoly se réinvente — 4 nouvelles fonctionnalités pour révolutionner la rentrée scolaire !](/actualites/d866219c-f667-44c1-a155-d3ec941cc15e)
+- [Scoly se réinvente : 4 nouvelles fonctionnalités pour révolutionner la rentrée scolaire !](/actualites/888b1967-1069-47c4-8e58-e17a0dc798ea)
+- [NSIA Banque et Scoly : Un partenariat historique pour l'éducation digitale en Côte d'Ivoire](/actualites/932195a0-0272-420c-9319-2f60d932c47f)
+- [Réussir ses vacances sans oublier ses cours : Le guide ultime pour les élèves](/actualites/d94e1226-4bcc-49a9-ba03-d00b5e8c7909)
+- [École de la Deuxième Chance : Redonner Espoir et Avenir à la Jeunesse Ivoirienne](/actualites/c3cd8372-7f39-496a-a6bd-a3bd5c4ca6e5)
+- [Boostez votre Productivité avec Scoly : Le Guide des Fournitures de Qualité en Côte d'Ivoire](/actualites/042f21d0-1169-4e9f-ac1a-b9863c2734c5)
 
 ## Fichiers SEO
 - [Sitemap XML](/sitemap.xml)
