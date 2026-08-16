@@ -8,7 +8,7 @@ import HomeCategoryRows from "@/components/HomeCategoryRows";
 import TrustStrip from "@/components/TrustStrip";
 
 import Footer from "@/components/Footer";
-import FreeShippingPopup from "@/components/FreeShippingPopup";
+import LaunchPopup from "@/components/LaunchPopup";
 import SEOHead from "@/components/SEOHead";
 import RecentlyViewed from "@/components/RecentlyViewed";
 
@@ -37,7 +37,7 @@ const Index = () => {
       {/* 4. Réassurance avant le footer */}
       <TrustStrip />
       <Footer />
-      <FreeShippingPopup />
+      <LaunchPopup />
     </main>
   );
 };
