@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoly</title>
+  </head>
+  <body>
+    <script>
+      // SPA fallback: when a user lands directly on /some/route,
+      // store the full URL and redirect to / so the client router can render it.
+      
+      // Special handling for OAuth routes on custom domains
+      // These need to be forwarded to the hosted OAuth broker
+      var path = window.location.pathname;
+      if (path.startsWith('/~oauth')) {
+        // Forward OAuth requests to the broker
+        window.location.replace('https://oauth.lovable.app' + path + window.location.search);
+      } else {
+        // Standard SPA redirect
+        sessionStorage.setItem('redirect', window.location.href);
+        window.location.replace('/');
+      }
+    </script>
+  </body>
+</html>

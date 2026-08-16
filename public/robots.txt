@@ -1,14 +1,31 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Robots.txt - Scoly (https://scoly.ci)
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /compte
+Disallow: /checkout
+Disallow: /cart
+Disallow: /panier
+Disallow: /vendor
+Disallow: /moderator
+Disallow: /delivery
+Disallow: /author
+Disallow: /team
+Disallow: /me
+Disallow: /bootstrap-admin
+Disallow: /auth
+Disallow: /unsubscribe
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://scoly.ci/sitemap.xml
+Host: https://scoly.ci

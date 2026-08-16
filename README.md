@@ -1,24 +1,74 @@
-# Scoli Companion
+# Izy-Scoly
 
-scoly.ci
+Plateforme e-commerce de fournitures scolaires et bureautiques en Côte d'Ivoire.
 
-This project was built with [Lovable](https://lovable.dev).
+## À propos
 
-## Build with Lovable
+**Izy-Scoly** est une plateforme complète dédiée à la vente de fournitures scolaires et bureautiques, avec un système de publication d'actualités et de gestion multi-vendeurs.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/7b8b1988-08f0-46d5-a179-1213260e9ee7).
+## Fonctionnalités
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **E-commerce** : Catalogue produits, panier, commandes, paiements (KkiaPay, Mobile Money)
+- **Multi-vendeurs** : Tableau de bord vendeur, gestion des produits, commissions
+- **Actualités** : Publication et modération d'articles avec réactions et partages
+- **Authentification** : Email/mot de passe, Google OAuth, Apple Sign-In
+- **Notifications** : Push notifications, alertes de sécurité en temps réel
+- **Livraison** : Gestion des livraisons avec preuves photo et géolocalisation
+- **Messagerie interne** : Communication modérateurs ↔ clients
+- **Administration** : Tableau de bord complet avec statistiques et gestion
 
-## Development
+## Technologies
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- **Frontend** : React, TypeScript, Vite, Tailwind CSS, shadcn/ui
+- **Backend** : Supabase (PostgreSQL, Auth, Storage, Edge Functions)
+- **Paiements** : KkiaPay, Mobile Money
+- **Hébergement** : Vercel
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+## Installation locale
+
+```bash
+# Cloner le repository
+git clone <URL_GIT>
+
+# Installer les dépendances
+npm install
+
+# Lancer le serveur de développement
 npm run dev
 ```
+
+## Structure du projet
+
+```
+src/
+├── components/     # Composants React réutilisables
+├── contexts/       # Contextes React (Auth, Cart, Language)
+├── hooks/          # Hooks personnalisés
+├── pages/          # Pages de l'application
+├── integrations/   # Intégrations (Supabase, etc.)
+└── i18n/           # Traductions multilingues
+
+supabase/
+├── functions/      # Edge Functions (webhooks, API)
+└── migrations/     # Migrations SQL
+```
+
+## Rôles utilisateurs
+
+- **User** : Client standard
+- **Vendor** : Vendeur avec boutique
+- **Moderator** : Modération du contenu et support client
+- **Delivery** : Livreur avec gestion des preuves
+- **Admin** : Administration complète
+
+## Sécurité
+
+- Row Level Security (RLS) sur toutes les tables
+- Rate limiting sur les actions sensibles
+- Validation des webhooks de paiement
+- Alertes de connexion sur nouveaux appareils
+- Audit logs des actions administratives
+
+## Licence
+
+Propriétaire - Tous droits réservés © Izy-Scoly

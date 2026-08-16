@@ -1,0 +1,67 @@
+# =========================================
+# Izy-scoly SPA Apache/cPanel Configuration
+# =========================================
+# Ce fichier permet d'héberger l'application sur Apache (cPanel, OVH, etc.)
+# Toutes les requêtes sont redirigées vers index.html pour permettre au
+# routeur React de gérer la navigation.
+
+# Activer la réécriture d'URL
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Forcer HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  
+  # Si le fichier ou répertoire existe, servir directement
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Sinon, rediriger vers index.html (SPA fallback)
+  RewriteRule ^.*$ /index.html [L]
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+  AddOutputFilterByType DEFLATE font/woff font/woff2 image/svg+xml
+</IfModule>
+
+# Headers de sécurité
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-XSS-Protection "1; mode=block"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Cache pour les assets statiques (1 an)
+  <FilesMatch "\.(js|css|woff|woff2|svg|png|jpg|jpeg|gif|ico|webp)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  
+  # Cache plus court pour HTML (10 minutes)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# Types MIME
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType text/css .css
+  AddType application/json .json
+  AddType image/svg+xml .svg
+  AddType font/woff .woff
+  AddType font/woff2 .woff2
+</IfModule>
+
+# Empêcher l'affichage du répertoire
+Options -Indexes
+
+# Fichier d'erreur personnalisé
+ErrorDocument 404 /index.html
