@@ -66,8 +66,8 @@ const REVEALS = Array.from({ length: 10 }, (_, i) => ({
 
 const PULSE = {
   animate: { scale: [1, 1.025, 1] },
-  transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.6 },
-} as const;
+  transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" as const, repeatDelay: 1.6 },
+};
 
 const reveal = (i: number) => REVEALS[i];
 
