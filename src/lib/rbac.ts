@@ -59,6 +59,7 @@ export const ADMIN_SECTION_ACL: Record<string, readonly AppRole[]> = {
   review: ["super_admin", "admin"],
   advertisements: ["super_admin", "admin"],
   faq: ["super_admin", "admin"],
+  sms: ["super_admin", "admin"],
   settings: ["super_admin"],
 };
 
