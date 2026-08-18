@@ -27,6 +27,7 @@ import {
   Gift,
   BarChart3,
   HelpCircle,
+  MessageSquare,
   FileText,
   Menu,
   UserPlus,
@@ -56,6 +57,7 @@ import PublicationsReview from "@/components/admin/PublicationsReview";
 import CouponManagement from "@/components/admin/CouponManagement";
 import AdvertisementsManagement from "@/components/admin/AdvertisementsManagement";
 import FAQManagement from "@/components/admin/FAQManagement";
+import SmsNotificationsManagement from "@/components/admin/SmsNotificationsManagement";
 import PlatformSettings from "@/components/admin/PlatformSettings";
 import AdvancedStats from "@/components/admin/AdvancedStats";
 import PaymentsTab from "@/components/admin/PaymentsTab";
@@ -167,6 +169,7 @@ const Admin = () => {
       label: "Système",
       items: [
         { id: "faq", label: "FAQ", icon: HelpCircle },
+        { id: "sms", label: "SMS & Notifications", icon: MessageSquare },
         { id: "settings", label: "Paramètres", icon: Settings },
       ],
     },
@@ -335,6 +338,7 @@ const Admin = () => {
           {canRender("promotions") && <CouponManagement />}
           {canRender("advertisements") && <AdvertisementsManagement />}
           {canRender("faq") && <FAQManagement />}
+          {canRender("sms") && <SmsNotificationsManagement />}
           {canRender("referrals") && <ReferralsManagement />}
           {canRender("settings") && <PlatformSettings />}
           {canRender("zones") && <ZonesManagement />}
