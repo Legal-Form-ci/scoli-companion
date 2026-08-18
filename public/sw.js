@@ -1,5 +1,5 @@
 /* Scoly PWA Service Worker — cache strategy tuned for slow mobile networks */
-const VERSION = 'scoly-v3';
+const VERSION = 'scoly-v4';
 const STATIC_CACHE = `${VERSION}-static`;
 const IMAGE_CACHE = `${VERSION}-images`;
 const DATA_CACHE = `${VERSION}-data`;

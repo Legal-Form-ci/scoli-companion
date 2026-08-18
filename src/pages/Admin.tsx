@@ -93,6 +93,7 @@ type TabType =
   | "notifications"
   | "advertisements"
   | "faq"
+  | "sms"
   | "stats"
   | "sharestats"
   | "settings"
