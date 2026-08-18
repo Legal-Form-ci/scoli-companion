@@ -2558,6 +2558,51 @@ export type Database = {
           },
         ]
       }
+      sms_logs: {
+        Row: {
+          body: string
+          created_at: string
+          error_message: string | null
+          id: string
+          metadata: Json
+          provider: string
+          provider_message_id: string | null
+          recipient: string
+          sent_by: string | null
+          status: string
+          template_key: string | null
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json
+          provider?: string
+          provider_message_id?: string | null
+          recipient: string
+          sent_by?: string | null
+          status?: string
+          template_key?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json
+          provider?: string
+          provider_message_id?: string | null
+          recipient?: string
+          sent_by?: string | null
+          status?: string
+          template_key?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sms_templates: {
         Row: {
           body: string
