@@ -2,10 +2,24 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
-createRoot(document.getElementById("root")!).render(<App />);
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element not found");
+}
+
+createRoot(rootElement).render(<App />);
 
 // Enregistrement du Service Worker + purge automatique du cache pour tous les visiteurs.
-if ("serviceWorker" in navigator) {
+// Never let a production service worker cache Vite's versioned development chunks.
+if (import.meta.env.DEV && "serviceWorker" in navigator) {
+  void navigator.serviceWorker.getRegistrations().then((registrations) =>
+    Promise.all(registrations.map((registration) => registration.unregister())),
+  );
+  if ("caches" in window) {
+    void caches.keys().then((keys) => Promise.all(keys.map((key) => caches.delete(key))));
+  }
+} else if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     // Certains environnements (aperçu iframe) ne servent pas /sw.js : on vérifie avant d'enregistrer.
     fetch("/sw.js", { method: "HEAD" })
