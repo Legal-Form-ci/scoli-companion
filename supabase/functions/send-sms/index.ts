@@ -16,7 +16,9 @@ const json = (data: unknown, status = 200) =>
   });
 
 function render(template: string, vars: Record<string, string | number | undefined>) {
-  return template.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, k) => String(vars[k] ?? ''));
+  return template
+    .replace(/\{\{\s*(\w+)\s*\}\}/g, (_, k) => String(vars[k] ?? ''))
+    .replace(/\{\s*(\w+)\s*\}/g, (_, k) => (vars[k] !== undefined ? String(vars[k]) : `{${k}}`));
 }
 
 function normalizePhone(raw: string) {
@@ -94,7 +96,13 @@ Deno.serve(async (req) => {
     if (!allowed) return json({ error: 'Forbidden' }, 403);
 
     const payload = await req.json();
-    const { template_key, variables = {}, body: rawBody } = payload;
+    const { template_key, variables = {}, body: rawBody, action } = payload;
+
+    if (action === 'balance') return json(await getBalance());
+    if (action === 'status') {
+      if (!payload.group_id) return json({ error: 'group_id requis' }, 400);
+      return json(await getGroupStatus(String(payload.group_id)));
+    }
     const recipients: string[] = Array.isArray(payload.to) ? payload.to : payload.to ? [payload.to] : [];
     if (recipients.length === 0) return json({ error: 'Destinataire requis' }, 400);
     if (recipients.length > 500) return json({ error: 'Maximum 500 destinataires par envoi' }, 400);
@@ -110,12 +118,28 @@ Deno.serve(async (req) => {
       body = render(tpl.body, variables);
     }
     if (!body?.trim()) return json({ error: 'body ou template_key requis' }, 400);
-    body = body.slice(0, 160);
+    const bodyTemplate = body;
 
     const results: Array<{ to: string; ok: boolean; error?: string }> = [];
 
     for (const rawTo of recipients) {
       const to = normalizePhone(rawTo);
+
+      // Récupération automatique du nom du contact à partir de son numéro
+      let nom = String(variables.nom ?? '');
+      if (!nom) {
+        const local = to.replace(/^225/, '');
+        const { data: prof } = await sbAdmin
+          .from('profiles')
+          .select('first_name,last_name,phone')
+          .or(`phone.eq.${to},phone.eq.+${to},phone.eq.${local},phone.eq.0${local}`)
+          .limit(1)
+          .maybeSingle();
+        nom = [prof?.first_name, prof?.last_name].filter(Boolean).join(' ').trim();
+      }
+
+      const body = render(bodyTemplate, { ...variables, nom: nom || 'cher client', numero: to }).slice(0, 160);
+
       let outcome;
       try {
         outcome = await sendOne(to, body);
@@ -129,7 +153,7 @@ Deno.serve(async (req) => {
         template_key: template_key ?? null,
         status: outcome.ok ? 'sent' : 'failed',
         provider: 'smsing',
-        provider_message_id: outcome.parsed?.id ?? outcome.parsed?.message_id ?? null,
+        provider_message_id: outcome.parsed?.group_id ?? outcome.parsed?.id ?? null,
         error_message: outcome.ok ? null : outcome.raw,
         sent_by: userId,
         metadata: { http_status: outcome.status },
