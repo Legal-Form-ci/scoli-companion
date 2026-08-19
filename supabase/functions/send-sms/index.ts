@@ -21,41 +21,51 @@ function render(template: string, vars: Record<string, string | number | undefin
 
 function normalizePhone(raw: string) {
   const cleaned = String(raw).replace(/[^\d+]/g, '');
-  if (cleaned.startsWith('+')) return cleaned;
-  if (cleaned.startsWith('225')) return `+${cleaned}`;
-  return `+225${cleaned}`;
+  const digits = cleaned.replace(/\D/g, '');
+  if (digits.startsWith('225')) return digits;
+  return `225${digits.replace(/^0+/, '')}`;
 }
 
 async function sendOne(to: string, body: string) {
-  // Le fournisseur accepte plusieurs alias de paramètres : on les envoie tous.
-  const params = new URLSearchParams({
-    api_key: SMSING_API_KEY!,
-    key: SMSING_API_KEY!,
-    secret: SMSING_API_KEY!,
-    api_token: SMSING_API_TOKEN!,
-    token: SMSING_API_TOKEN!,
-    to,
-    phone: to,
-    recipient: to,
-    message: body,
-    text: body,
-    sender: SMSING_SENDER,
-    sender_id: SMSING_SENDER,
-    mode: 'devices',
+  // API TP Cloud / smsing.app : requête GET avec l'action `sendsms` en premier paramètre
+  const qs = new URLSearchParams({
+    apikey: SMSING_API_KEY!,
+    apitoken: SMSING_API_TOKEN!,
     type: 'sms',
+    from: SMSING_SENDER,
+    to,
+    text: body,
+    route: '0',
   });
 
-  const res = await fetch(SMSING_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params,
-  });
+  const url = `${SMSING_API_URL}?sendsms&${qs.toString()}`;
+  const res = await fetch(url, { method: 'GET' });
 
   const raw = await res.text();
   let parsed: any = null;
   try { parsed = JSON.parse(raw); } catch { /* réponse texte */ }
-  const ok = res.ok && !/error|failed|invalid/i.test(raw.slice(0, 200));
-  return { ok, raw: raw.slice(0, 500), parsed, status: res.status };
+  const status = String(parsed?.status ?? '').toLowerCase();
+  const ok = res.ok && (status === 'queued' || status === 'success' || status === 'sent');
+  return {
+    ok,
+    raw: (parsed?.message ? String(parsed.message) : raw).slice(0, 500),
+    parsed,
+    status: res.status,
+  };
+}
+
+async function getBalance() {
+  const qs = new URLSearchParams({ apikey: SMSING_API_KEY!, apitoken: SMSING_API_TOKEN! });
+  const res = await fetch(`${SMSING_API_URL}?balance&${qs.toString()}`, { method: 'GET' });
+  const raw = await res.text();
+  try { return JSON.parse(raw); } catch { return { raw }; }
+}
+
+async function getGroupStatus(groupId: string) {
+  const qs = new URLSearchParams({ apikey: SMSING_API_KEY!, apitoken: SMSING_API_TOKEN!, groupid: groupId });
+  const res = await fetch(`${SMSING_API_URL}?groupstatus&${qs.toString()}`, { method: 'GET' });
+  const raw = await res.text();
+  try { return JSON.parse(raw); } catch { return { raw }; }
 }
 
 Deno.serve(async (req) => {
@@ -100,7 +110,7 @@ Deno.serve(async (req) => {
       body = render(tpl.body, variables);
     }
     if (!body?.trim()) return json({ error: 'body ou template_key requis' }, 400);
-    body = body.slice(0, 320);
+    body = body.slice(0, 160);
 
     const results: Array<{ to: string; ok: boolean; error?: string }> = [];
 
