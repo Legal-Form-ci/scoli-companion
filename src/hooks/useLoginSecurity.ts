@@ -241,30 +241,17 @@ export const useLoginSecurity = () => {
   const blockLoginSession = useCallback(async (sessionId: string) => {
     try {
       console.log('[Security] Blocking session via RPC:', sessionId);
-      
-      // Use server-side RPC function for secure session revocation
+
+      // Server-side RPC function for secure session revocation (no client fallback)
       const { data, error } = await supabase.rpc('revoke_blocked_session', {
         _session_id: sessionId
       });
 
-      if (error) {
-        console.error('[Security] Error blocking session:', error);
-        // Fallback to direct update
-        const { error: fallbackError } = await supabase
-          .from('login_sessions')
-          .update({
-            is_blocked: true,
-            is_confirmed: false,
-            confirmed_at: new Date().toISOString()
-          })
-          .eq('id', sessionId);
-        
-        if (fallbackError) {
-          console.error('[Security] Fallback also failed:', fallbackError);
-          return false;
-        }
+      if (error || data === false) {
+        console.error('[Security] Error blocking session');
+        return false;
       }
-      
+
       console.log('[Security] Session blocked successfully');
       return true;
     } catch (error) {
@@ -273,25 +260,22 @@ export const useLoginSecurity = () => {
     }
   }, []);
 
+
   // Confirm a login session (called when user clicks "Yes, it's me")
   const confirmLoginSession = useCallback(async (sessionId: string) => {
     try {
-      console.log('[Security] Confirming session:', sessionId);
-      
-      const { error } = await supabase
-        .from('login_sessions')
-        .update({
-          is_confirmed: true,
-          is_blocked: false,
-          confirmed_at: new Date().toISOString()
-        })
-        .eq('id', sessionId);
+      console.log('[Security] Confirming session via RPC:', sessionId);
 
-      if (error) {
-        console.error('[Security] Error confirming session:', error);
+      // Server-side controlled confirmation (users cannot self-approve directly)
+      const { data, error } = await supabase.rpc('confirm_login_session', {
+        _session_id: sessionId
+      });
+
+      if (error || data === false) {
+        console.error('[Security] Error confirming session');
         return false;
       }
-      
+
       console.log('[Security] Session confirmed successfully');
       return true;
     } catch (error) {
@@ -299,6 +283,7 @@ export const useLoginSecurity = () => {
       return false;
     }
   }, []);
+
 
   // Add device to trusted devices
   const trustDevice = useCallback(async (sessionId: string) => {
