@@ -1934,6 +1934,113 @@ export type Database = {
         }
         Relationships: []
       }
+      referent_applications: {
+        Row: {
+          address: string | null
+          assigned_commercial_id: string | null
+          city: string | null
+          created_at: string
+          created_user_id: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          notes: string | null
+          phone: string
+          region: string | null
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          school_id: string | null
+          school_name: string | null
+          sponsor_referent_id: string | null
+          status: string
+          submitted_by: string
+          submitted_role: string
+          updated_at: string
+          zone_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          assigned_commercial_id?: string | null
+          city?: string | null
+          created_at?: string
+          created_user_id?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          notes?: string | null
+          phone: string
+          region?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          school_id?: string | null
+          school_name?: string | null
+          sponsor_referent_id?: string | null
+          status?: string
+          submitted_by: string
+          submitted_role?: string
+          updated_at?: string
+          zone_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          assigned_commercial_id?: string | null
+          city?: string | null
+          created_at?: string
+          created_user_id?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          notes?: string | null
+          phone?: string
+          region?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          school_id?: string | null
+          school_name?: string | null
+          sponsor_referent_id?: string | null
+          status?: string
+          submitted_by?: string
+          submitted_role?: string
+          updated_at?: string
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referent_applications_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "public_schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referent_applications_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referent_applications_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referent_applications_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referral_rewards: {
         Row: {
           amount: number
@@ -2689,6 +2796,51 @@ export type Database = {
         Update: {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_tasks: {
+        Row: {
+          assigned_by: string | null
+          created_at: string
+          description: string | null
+          done_at: string | null
+          due_date: string | null
+          id: string
+          is_done: boolean
+          module: string | null
+          priority: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_by?: string | null
+          created_at?: string
+          description?: string | null
+          done_at?: string | null
+          due_date?: string | null
+          id?: string
+          is_done?: boolean
+          module?: string | null
+          priority?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_by?: string | null
+          created_at?: string
+          description?: string | null
+          done_at?: string | null
+          due_date?: string | null
+          id?: string
+          is_done?: boolean
+          module?: string | null
+          priority?: string
+          title?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
