@@ -29,7 +29,7 @@ interface SmsLog {
   created_at: string;
 }
 
-const MAX_LEN = 320;
+const MAX_LEN = 160;
 
 /* --------------------------------- Modèles -------------------------------- */
 function TemplatesTab() {
@@ -155,6 +155,15 @@ function SendTab() {
   const [recipients, setRecipients] = useState("");
   const [body, setBody] = useState("");
   const [sending, setSending] = useState(false);
+  const [balance, setBalance] = useState<string | null>(null);
+  const [lastErrors, setLastErrors] = useState<string[]>([]);
+
+  const loadBalance = async () => {
+    const { data } = await supabase.functions.invoke("send-sms", { body: { action: "balance" } });
+    setBalance((data as any)?.balance ?? null);
+  };
+
+  useEffect(() => { loadBalance(); }, []);
 
   useEffect(() => {
     supabase.from("sms_templates").select("*").eq("is_active", true).order("label")
@@ -180,12 +189,22 @@ function SendTab() {
     setSending(false);
     if (error) return toast.error(error.message);
     if ((data as any)?.error) return toast.error((data as any).error);
-    toast.success(`Envoyé : ${(data as any)?.sent ?? 0} · Échecs : ${(data as any)?.failed ?? 0}`);
+    const res = (data as any)?.results ?? [];
+    const errs = res.filter((r: any) => !r.ok).map((r: any) => `${r.to} : ${r.error}`);
+    setLastErrors(errs);
+    loadBalance();
+    if (errs.length) toast.error(`Échecs : ${errs.length} — ${errs[0]}`);
+    else toast.success(`Envoyé : ${(data as any)?.sent ?? 0}`);
   };
 
   return (
     <Card>
-      <CardHeader><CardTitle className="text-base">Envoi de SMS</CardTitle></CardHeader>
+      <CardHeader className="flex-row items-center justify-between gap-2">
+        <CardTitle className="text-base">Envoi de SMS</CardTitle>
+        {balance !== null && (
+          <Badge variant={Number(balance) > 0 ? "default" : "destructive"}>Crédit : {balance}</Badge>
+        )}
+      </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label>Destinataires ({list.length})</Label>
@@ -195,7 +214,7 @@ function SendTab() {
             value={recipients}
             onChange={(e) => setRecipients(e.target.value)}
           />
-          <p className="text-xs text-muted-foreground">Séparez par virgule, espace ou saut de ligne. Préfixe +225 ajouté automatiquement.</p>
+          <p className="text-xs text-muted-foreground">Séparez par virgule, espace ou saut de ligne. Préfixe 225 ajouté automatiquement. Le nom du client est récupéré automatiquement via <code>{"{nom}"}</code>.</p>
         </div>
 
         <div className="space-y-2">
@@ -224,6 +243,15 @@ function SendTab() {
           {sending ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Send size={14} className="mr-2" />}
           Envoyer
         </Button>
+
+        {lastErrors.length > 0 && (
+          <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-3 space-y-1">
+            <p className="text-sm font-medium text-destructive">Échecs d'envoi</p>
+            {lastErrors.map((e, i) => (
+              <p key={i} className="text-xs text-destructive/90">{e}</p>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
