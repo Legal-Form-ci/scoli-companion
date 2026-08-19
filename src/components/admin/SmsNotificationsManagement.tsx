@@ -214,7 +214,7 @@ function SendTab() {
             value={recipients}
             onChange={(e) => setRecipients(e.target.value)}
           />
-          <p className="text-xs text-muted-foreground">Séparez par virgule, espace ou saut de ligne. Préfixe 225 ajouté automatiquement. Le nom du client est récupéré automatiquement via {nom}.</p>
+          <p className="text-xs text-muted-foreground">Séparez par virgule, espace ou saut de ligne. Préfixe 225 ajouté automatiquement. Le nom du client est récupéré automatiquement via <code>{"{nom}"}</code>.</p>
         </div>
 
         <div className="space-y-2">
