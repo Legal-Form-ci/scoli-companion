@@ -3133,6 +3133,7 @@ export type Database = {
         Args: { _code: string; _subtotal: number }
         Returns: number
       }
+      confirm_login_session: { Args: { _session_id: string }; Returns: boolean }
       confirm_newsletter_subscription: {
         Args: { _token: string }
         Returns: {
